@@ -79,6 +79,7 @@ jobs:
             --rm \
             -v $(pwd):/${{ github.workspace }} \
             -w ${{ github.workspace }} \
+            --entrypoint /bin/sh \
             --platform linux/${{ matrix.arch }} \
             ${{ matrix.distro }} \
             ${{ env.DEPS }} && script/ci/download-standalone-and-test.sh
