@@ -50,6 +50,7 @@ jobs:
   test-docker:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         arch:
           - amd64 
@@ -80,4 +81,4 @@ jobs:
             -w ${{ github.workspace }} \
             --platform linux/${{ matrix.arch }} \
             ${{ matrix.distro }} \
-            $DEPS && script/ci/download-standalone-and-test.sh
+            ${{ env.DEPS }} && script/ci/download-standalone-and-test.sh
