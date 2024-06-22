@@ -9,7 +9,7 @@ require_binary curl
 require_binary unzip
 require_env_var STANDALONE_VERSION
 
-BASEURL=https://github.com/pact-foundation/pact-ruby-standalone/releases/download
+BASEURL=https://github.com/you54f/pact-ruby-standalone/releases/download
 STANDALONE_DIR="${LIB_DIR}/../../standalone"
 
 function download_standalone {
@@ -58,6 +58,8 @@ if [ -z "${ONLY_DOWNLOAD_PACT_FOR_WINDOWS:-}" ]; then
   download_standalone "pact-${STANDALONE_VERSION}-osx-arm64.tar.gz"           "darwin-arm64-${STANDALONE_VERSION}.tar.gz"
   download_standalone "pact-${STANDALONE_VERSION}-linux-x86_64.tar.gz"  "linux-x64-${STANDALONE_VERSION}.tar.gz"
   download_standalone "pact-${STANDALONE_VERSION}-linux-arm64.tar.gz"  "linux-arm64-${STANDALONE_VERSION}.tar.gz"
+  download_standalone "pact-${STANDALONE_VERSION}-linux-musl-x86_64.tar.gz"  "linux-musl-x64-${STANDALONE_VERSION}.tar.gz"
+  download_standalone "pact-${STANDALONE_VERSION}-linux-musl-arm64.tar.gz"  "linux-musl-arm64-${STANDALONE_VERSION}.tar.gz"
 fi
 
 # Write readme in the ffi folder

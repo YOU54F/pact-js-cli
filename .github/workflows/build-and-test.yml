@@ -46,3 +46,38 @@ jobs:
           ONLY_DOWNLOAD_PACT_FOR_WINDOWS: true
           PACT_BROKER_FEATURES: publish_pacts_using_old_api
           LIB_ROBUST_BASH_DEBUG: true
+
+  test-docker:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch:
+          - amd64 
+          - arm64
+        distro:
+          - "node:alpine"
+          - "node:slim"
+
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+        if: ${{ matrix.arch }} == 'arm64'
+        with:
+          platforms: ${{ matrix.arch }}
+
+      - name: Set up Deps
+        run: |
+          if [ '${{ matrix.distro }}' == *"alpine" ]; then
+            echo "DEPS='apk add bash curl' >> $GITHUB_ENV
+          else
+            echo "DEPS='apt-get update -y && apt-get install -y curl' >> $GITHUB_ENV
+          fi;
+      - name: Run in Docker
+        run: |
+          docker run \
+            --rm \
+            -v $(pwd):/${{ github.workspace }} \
+            -w ${{ github.workspace }} \
+            --platform linux/${{ matrix.arch }} \
+            ${{ matrix.distro }} \
+            $DEPS && script/ci/download-standalone-and-test.sh

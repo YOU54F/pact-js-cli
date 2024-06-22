@@ -1,7 +1,9 @@
 import chalk = require('chalk');
+import { execSync } from 'child_process';
+import { existsSync } from 'fs';
 
 // Get latest version from https://github.com/pact-foundation/pact-ruby-standalone/releases
-export const PACT_STANDALONE_VERSION = '2.4.6';
+export const PACT_STANDALONE_VERSION = '4.0.0';
 
 function makeError(msg: string): Error {
   return new Error(chalk.red(`Error while locating pact binary: ${msg}`));
@@ -16,6 +18,18 @@ export function createConfig(): Config {
       ['linux', 'arm64', 'linux', 'arm64', 'tar.gz'],
       ['linux', 'x64', 'linux', 'x64', 'tar.gz'],
     ].map(([platform, arch, downloadPlatform, downloadArch, extension]) => {
+      let isMusl = false;
+      if (platform === 'linux') {
+        const normalisedArch = arch === 'arm64' ? 'aarch64' : 'x86_64';
+        if (existsSync(`/lib/ld-musl-${normalisedArch}.so.1`)) {
+          isMusl = /musl/.test(execSync('ldd /bin/sh').toString());
+          // eslint-disable-next-line no-param-reassign
+          downloadPlatform = isMusl
+            ? `${downloadPlatform}-musl`
+            : downloadPlatform;
+        }
+      }
+
       const binary = `pact-${PACT_STANDALONE_VERSION}-${downloadPlatform}-${downloadArch}.${extension}`;
       return {
         platform,
@@ -23,7 +37,12 @@ export function createConfig(): Config {
         binary,
         binaryChecksum: `${binary}.checksum`,
         folderName: `${
-          platform === 'win32' ? 'windows' : platform
+          // eslint-disable-next-line no-nested-ternary
+          platform === 'win32'
+            ? 'windows'
+            : isMusl && platform === 'linux'
+            ? `${platform}-musl`
+            : platform
         }-${arch}-${PACT_STANDALONE_VERSION}`,
       };
     }),
