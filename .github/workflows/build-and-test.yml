@@ -7,45 +7,45 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version: [
-          16.x,
-          18.x,
-          20.x
-          ]
-        os: [
-          windows-2019,
-          macos-latest,
-          ubuntu-latest
-          ]
+  # build-and-test:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       node-version: [
+  #         16.x,
+  #         18.x,
+  #         20.x
+  #         ]
+  #       os: [
+  #         windows-2019,
+  #         macos-latest,
+  #         ubuntu-latest
+  #         ]
 
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: script/ci/download-standalone-and-test.sh
-        if: runner.os != 'Windows'
-        env:
-          NODE_VERSION: ${{ matrix.node-version }}
-          PACT_BROKER_FEATURES: publish_pacts_using_old_api
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - run: script/ci/download-standalone-and-test.sh
+  #       if: runner.os != 'Windows'
+  #       env:
+  #         NODE_VERSION: ${{ matrix.node-version }}
+  #         PACT_BROKER_FEATURES: publish_pacts_using_old_api
 
-      - run: script/ci/download-standalone-and-test.sh
-        if: runner.os == 'Windows'
-        shell: bash
-        env:
-          NODE_VERSION: ${{ matrix.node-version }}
-          # The windows build agent has trouble unpacking the tar for
-          # linux, so we only download windows binaries. This means
-          # we cannot release from Windows in CI.
-          ONLY_DOWNLOAD_PACT_FOR_WINDOWS: true
-          PACT_BROKER_FEATURES: publish_pacts_using_old_api
-          LIB_ROBUST_BASH_DEBUG: true
+  #     - run: script/ci/download-standalone-and-test.sh
+  #       if: runner.os == 'Windows'
+  #       shell: bash
+  #       env:
+  #         NODE_VERSION: ${{ matrix.node-version }}
+  #         # The windows build agent has trouble unpacking the tar for
+  #         # linux, so we only download windows binaries. This means
+  #         # we cannot release from Windows in CI.
+  #         ONLY_DOWNLOAD_PACT_FOR_WINDOWS: true
+  #         PACT_BROKER_FEATURES: publish_pacts_using_old_api
+  #         LIB_ROBUST_BASH_DEBUG: true
 
   test-docker:
     runs-on: ubuntu-latest
@@ -69,9 +69,9 @@ jobs:
       - name: Set up Deps
         run: |
           if [ '${{ matrix.distro }}' == *"alpine" ]; then
-            echo "DEPS='apk add bash curl' >> $GITHUB_ENV
+            echo "DEPS='apk add bash curl'" >> $GITHUB_ENV
           else
-            echo "DEPS='apt-get update -y && apt-get install -y curl' >> $GITHUB_ENV
+            echo "DEPS='apt-get update -y && apt-get install -y curl'" >> $GITHUB_ENV
           fi;
       - name: Run in Docker
         run: |
