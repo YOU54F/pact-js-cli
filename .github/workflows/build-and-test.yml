@@ -81,4 +81,4 @@ jobs:
             -i -w ${{ github.workspace }} \
             --platform linux/${{ matrix.arch }} \
             ${{ matrix.distro }} \
-            ${{ env.DEPS }} && /bin/bash -c 'script/ci/download-standalone-and-test.sh'
+           /bin/sh -c '${{ env.DEPS }} && script/ci/download-standalone-and-test.sh'
