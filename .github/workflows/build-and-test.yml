@@ -69,9 +69,9 @@ jobs:
       - name: Set up Deps
         run: |
           if [[ ${{ matrix.distro }} == *"alpine"* ]]; then
-            echo "DEPS='apk add bash curl'" >> $GITHUB_ENV
+            echo "DEPS=apk add bash curl" >> $GITHUB_ENV
           else
-            echo "DEPS='apt-get update -y && apt-get install -y curl'" >> $GITHUB_ENV
+            echo "DEPS=apt-get update -y && apt-get install -y curl" >> $GITHUB_ENV
           fi;
       - name: Run in Docker
         run: |
@@ -81,4 +81,4 @@ jobs:
             -i -w ${{ github.workspace }} \
             --platform linux/${{ matrix.arch }} \
             ${{ matrix.distro }} \
-           /bin/sh -c '"${{ env.DEPS }}" && script/ci/download-standalone-and-test.sh'
+           /bin/sh -c '${{ env.DEPS }} && script/ci/download-standalone-and-test.sh'
