@@ -77,8 +77,8 @@ jobs:
         run: |
           docker run \
             --rm \
-            -v $PWD:${{ github.workspace }} \
-            -i -w ${{ github.workspace }} \
+            -v $PWD:/home \
+            -i -w /home \
             --platform linux/${{ matrix.arch }} \
             ${{ matrix.distro }} \
            /bin/sh -c '${{ env.DEPS }} && ls && pwd && script/ci/download-standalone-and-test.sh'
