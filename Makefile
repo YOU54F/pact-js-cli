@@ -1,0 +1,69 @@
+export bin=@you54f/pact-cli
+export node_version=0.0.1
+supported_platforms = "linux-x64" "linux-arm64" "darwin-x64" "darwin-arm64" "windows-x64"
+export STANDALONE_VERSION=$(shell grep "PACT_STANDALONE_VERSION = '" standalone/install.ts | grep -E -o "'(.*)'" | cut -d"'" -f2)
+
+clean:
+	rm -rf @you54f
+libs:
+	npm run clean-libs
+	npm run download-libs
+
+all: clean libs
+	set -eu; for supported_platform in $(supported_platforms); do \
+		IFS='-' read -r node_os node_arch <<< "$$supported_platform"; \
+		export node_os=$$node_os; \
+		export node_arch=$$node_arch; \
+		export node_pkg=$(bin)-$$node_os-$$node_arch; \
+		export standalone_package=standalone/$$node_os-$$node_arch-$(STANDALONE_VERSION); \
+		if [ "$$node_os" = "windows" ]; then \
+			export node_os="win32"; \
+		fi; \
+		echo "Building for $$node_os-$$node_arch"; \
+		echo "Building $$node_pkg"; \
+		mkdir -p "$$node_pkg/standalone"; \
+		mv "$$standalone_package" "$$node_pkg/standalone"; \
+		envsubst < package.json.tmpl > "$$node_pkg/package.json"; \
+		(cd $$node_pkg && npm publish --access public --dry-run;)\
+	done
+
+dry_run:
+	set -eu; for supported_platform in $(supported_platforms); do \
+		IFS='-' read -r node_os node_arch <<< "$$supported_platform"; \
+		export node_os=$$node_os; \
+		export node_pkg=$(bin)-$$node_os-$$node_arch; \
+		export node_arch=$$node_arch; \
+		export standalone_package=standalone/$$node_os-$$node_arch-$(STANDALONE_VERSION); \
+		if [ "$$node_os" = "windows" ]; then \
+			export node_os="win32"; \
+		fi; \
+		echo "Building $$node_pkg for $$node_os-$$node_arch (dry-run)"; \
+		(cd $$node_pkg && npm publish --access public --dry-run;)\
+	done
+publish:
+	set -eu; for supported_platform in $(supported_platforms); do \
+		IFS='-' read -r node_os node_arch <<< "$$supported_platform"; \
+		export node_os=$$node_os; \
+		export node_arch=$$node_arch; \
+		export node_pkg=$(bin)-$$node_os-$$node_arch; \
+		export standalone_package=standalone/$$node_os-$$node_arch-$(STANDALONE_VERSION); \
+		if [ "$$node_os" = "windows" ]; then \
+			export node_os="win32"; \
+		fi; \
+		echo "Building for $$node_os-$$node_arch"; \
+		echo "Building $$node_pkg for $$node_os-$$node_arch"; \
+		(cd $$node_pkg && npm publish --access public;)\
+	done
+link:
+	set -eu; for supported_platform in $(supported_platforms); do \
+		IFS='-' read -r node_os node_arch <<< "$$supported_platform"; \
+		export node_os=$$node_os; \
+		export node_arch=$$node_arch; \
+		export node_pkg=$(bin)-$$node_os-$$node_arch; \
+		(cd $$node_pkg && npm link || echo "cannot link for platform";);\
+		npm link $$node_pkg || echo "cannot link for platform";\
+	done
+
+
+vers:
+	@echo $(STANDALONE_VERSION)

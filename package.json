@@ -1,7 +1,7 @@
 {
-  "name": "@pact-foundation/pact-cli",
+  "name": "@you54f/pact-cli",
   "version": "15.0.3",
-  "description": "Broker CLI for @pact-foundation/pact",
+  "description": "TEST - Broker CLI for @pact-foundation/pact",
   "main": "src/index.js",
   "homepage": "https://github.com/pact-foundation/pact-js-cli#readme",
   "types": "src/index.d.ts",
@@ -21,7 +21,6 @@
   ],
   "cpu": [
     "x64",
-    "ia32",
     "arm64"
   ],
   "engines": {
@@ -51,6 +50,13 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "optionalDependencies": {
+    "@you54f/pact-cli-darwin-arm64": "0.0.1",
+    "@you54f/pact-cli-darwin-x64": "0.0.1",
+    "@you54f/pact-cli-windows-x64": "0.0.1",
+    "@you54f/pact-cli-linux-x64": "0.0.1",
+    "@you54f/pact-cli-linux-arm64": "0.0.1"
   },
   "dependencies": {
     "chalk": "4.1.2",

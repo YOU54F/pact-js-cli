@@ -1,6 +1,33 @@
 import * as path from 'path';
 import { getBinaryEntry } from '../standalone/install';
 import pactEnvironment from './pact-environment';
+// import { spawnSync } from "child_process";
+
+/**
+ * Returns the executable path which is located inside `node_modules`
+ * The naming convention is app-${os}-${arch}
+ * If the platform is `win32` or `cygwin`, executable will include a `.exe` extension.
+ * @see https://nodejs.org/api/os.html#osarch
+ * @see https://nodejs.org/api/os.html#osplatform
+ * @example "x/xx/node_modules/app-darwin-arm64"
+ */
+function getExePath() {
+  const arch = process.arch;
+  let os = process.platform as string;
+  // let extension = "";
+  if (['win32', 'cygwin'].includes(process.platform)) {
+    os = 'windows';
+  }
+  const platformArchSpecificPackage = `@pact-foundation/pact-cli-${os}-${arch}`
+  try {
+    require.resolve(`${platformArchSpecificPackage}/package.json`)
+    return platformArchSpecificPackage;
+  } catch (e) {
+    throw new Error(
+      `Couldn't find application binary for ${os}-${arch}:\n 💡 npm install --save-dev ${platformArchSpecificPackage}`
+    );
+  }
+}
 
 export interface PactStandalone {
   cwd: string;
@@ -42,27 +69,75 @@ export const standalone = (
 
   return {
     cwd: pactEnvironment.cwd,
-    brokerPath: path.join(basePath, broker),
-    brokerFullPath: path.resolve(pactEnvironment.cwd, basePath, broker).trim(),
-    messagePath: path.join(basePath, message),
-    messageFullPath: path
-      .resolve(pactEnvironment.cwd, basePath, message)
+    brokerPath: path.join('node_modules', getExePath(), basePath, broker),
+    brokerFullPath: path
+      .resolve(
+        pactEnvironment.cwd,
+        'node_modules',
+        getExePath(),
+        basePath,
+        broker
+      )
       .trim(),
-    mockServicePath: path.join(basePath, mock),
+    messagePath: path.join('node_modules', getExePath(), basePath, message),
+    messageFullPath: path
+      .resolve(
+        pactEnvironment.cwd,
+        'node_modules',
+        getExePath(),
+        basePath,
+        message
+      )
+      .trim(),
+    mockServicePath: path.join('node_modules', getExePath(), basePath, mock),
     mockServiceFullPath: path
-      .resolve(pactEnvironment.cwd, basePath, mock)
+      .resolve(
+        pactEnvironment.cwd,
+        'node_modules',
+        getExePath(),
+        basePath,
+        mock
+      )
       .trim(),
     stubPath: path.join(basePath, stub),
-    stubFullPath: path.resolve(pactEnvironment.cwd, basePath, stub).trim(),
-    pactPath: path.join(basePath, pact),
-    pactFullPath: path.resolve(pactEnvironment.cwd, basePath, pact).trim(),
-    pactflowPath: path.join(basePath, pactflow),
-    pactflowFullPath: path
-      .resolve(pactEnvironment.cwd, basePath, pactflow)
+    stubFullPath: path
+      .resolve(
+        pactEnvironment.cwd,
+        'node_modules',
+        getExePath(),
+        basePath,
+        stub
+      )
       .trim(),
-    verifierPath: path.join(basePath, verify),
+    pactPath: path.join('node_modules', getExePath(), basePath, pact),
+    pactFullPath: path
+      .resolve(
+        pactEnvironment.cwd,
+        'node_modules',
+        getExePath(),
+        basePath,
+        pact
+      )
+      .trim(),
+    pactflowPath: path.join('node_modules', getExePath(), basePath, pactflow),
+    pactflowFullPath: path
+      .resolve(
+        pactEnvironment.cwd,
+        'node_modules',
+        getExePath(),
+        basePath,
+        pactflow
+      )
+      .trim(),
+    verifierPath: path.join('node_modules', getExePath(), basePath, verify),
     verifierFullPath: path
-      .resolve(pactEnvironment.cwd, basePath, verify)
+      .resolve(
+        pactEnvironment.cwd,
+        'node_modules',
+        getExePath(),
+        basePath,
+        verify
+      )
       .trim(),
   };
 };

@@ -14,10 +14,12 @@ echo "--> Releasing artifacts"
 echo "    Publishing pact-cli@${VERSION}..."
 if [[ ${DRY_RUN:-} == 'true' ]]; then
   echo "publishing in dry run mode"
+  make dry_run
   npm publish --access-public --dry-run
  else
   echo "--> Preparing npmrc file"
   "$SCRIPT_DIR"/create_npmrc_file.sh
+  make publish
   npm publish --access public --tag latest
 fi
 echo "    done!"
