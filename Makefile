@@ -12,7 +12,7 @@ clean:
 	rm -rf @you54f
 	npm run clean-libs
 libs:
-	npm run download-libs
+	bash script/download-libs.sh
 
 all: libs
 	set -eu; for supported_platform in $(supported_platforms); do \
