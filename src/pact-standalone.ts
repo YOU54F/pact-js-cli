@@ -12,15 +12,15 @@ import pactEnvironment from './pact-environment';
  * @example "x/xx/node_modules/app-darwin-arm64"
  */
 function getExePath() {
-  const arch = process.arch;
+  const { arch } = process;
   let os = process.platform as string;
   // let extension = "";
   if (['win32', 'cygwin'].includes(process.platform)) {
     os = 'windows';
   }
-  const platformArchSpecificPackage = `@pact-foundation/pact-cli-${os}-${arch}`
+  const platformArchSpecificPackage = `@you54f/pact-cli-${os}-${arch}`;
   try {
-    require.resolve(`${platformArchSpecificPackage}/package.json`)
+    require.resolve(`${platformArchSpecificPackage}/package.json`);
     return platformArchSpecificPackage;
   } catch (e) {
     throw new Error(
@@ -99,7 +99,7 @@ export const standalone = (
         mock
       )
       .trim(),
-    stubPath: path.join(basePath, stub),
+    stubPath: path.join('node_modules', getExePath(), basePath, stub),
     stubFullPath: path
       .resolve(
         pactEnvironment.cwd,

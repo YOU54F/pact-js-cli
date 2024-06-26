@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as chai from 'chai';
+import os from 'os';
 import pactEnvironment from './pact-environment';
 import { PactStandalone, standalone } from './pact-standalone';
 
@@ -37,17 +38,7 @@ describe('Pact Standalone', function forMocha() {
   });
 
   describe('Check if OS specific files are there', () => {
-    const tests = [
-      ['darwin', 'arm64'],
-      ['darwin', 'x64'],
-      ['linux', 'arm64'],
-      ['linux', 'x64'],
-      ['win32', 'x64'],
-    ].filter(([platform]) =>
-      process.env['ONLY_DOWNLOAD_PACT_FOR_WINDOWS']
-        ? platform === 'win32'
-        : true
-    );
+    const tests = [[os.platform(), os.arch()]];
 
     tests.forEach(([platform, arch]) => {
       describe(`${platform} ${arch}`, () => {

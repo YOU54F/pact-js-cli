@@ -15,7 +15,7 @@ libs:
 	bash script/download-libs.sh
 
 all: libs
-	set -eu; for supported_platform in $(supported_platforms); do \
+	for supported_platform in $(supported_platforms); do \
 		IFS='-' read -r node_os node_arch <<< "$$supported_platform"; \
 		export node_os=$$node_os; \
 		export node_arch=$$node_arch; \
