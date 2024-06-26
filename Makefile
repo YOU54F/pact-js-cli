@@ -3,13 +3,18 @@ export node_version=0.0.1
 supported_platforms = "linux-x64" "linux-arm64" "darwin-x64" "darwin-arm64" "windows-x64"
 export STANDALONE_VERSION=$(shell grep "PACT_STANDALONE_VERSION = '" standalone/install.ts | grep -E -o "'(.*)'" | cut -d"'" -f2)
 
+# https://github.com/npm/npm/issues/17722
+# https://github.com/npm/cli/issues/4828
+# https://github.com/orhun/packaging-rust-for-npm
+# https://blog.orhun.dev/packaging-rust-for-npm/
+
 clean:
 	rm -rf @you54f
-libs:
 	npm run clean-libs
+libs:
 	npm run download-libs
 
-all: clean libs
+all: libs
 	set -eu; for supported_platform in $(supported_platforms); do \
 		IFS='-' read -r node_os node_arch <<< "$$supported_platform"; \
 		export node_os=$$node_os; \
