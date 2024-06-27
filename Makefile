@@ -1,5 +1,6 @@
+SHELL:=/bin/bash
 export bin=@you54f/pact-cli
-export node_version=0.0.1
+export pkg_version=0.0.1
 supported_platforms = "linux-x64" "linux-arm64" "darwin-x64" "darwin-arm64" "windows-x64"
 export STANDALONE_VERSION=$(shell grep "PACT_STANDALONE_VERSION = '" standalone/install.ts | grep -E -o "'(.*)'" | cut -d"'" -f2)
 
