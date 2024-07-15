@@ -15,7 +15,7 @@ export function getExePath(): string {
   if (['win32', 'cygwin'].includes(process.platform)) {
     os = 'windows';
   }
-  const platformArchSpecificPackage = `@pact-foundation/pact-cli-${os}-${arch}`;
+  const platformArchSpecificPackage = `@you54f/pact-cli-${os}-${arch}`;
   try {
     const lib = require.resolve(`${platformArchSpecificPackage}/package.json`);
     return lib.replace('/package.json', '');

@@ -1,9 +1,9 @@
 {
-  "name": "@pact-foundation/pact-cli",
+  "name": "@you54f/pact-cli",
   "version": "15.0.3",
-  "description": "Broker CLI for @pact-foundation/pact",
+  "description": "Broker CLI for @you54f/pact",
   "main": "src/index.js",
-  "homepage": "https://github.com/pact-foundation/pact-js-cli#readme",
+  "homepage": "https://github.com/you54f/pact-js-cli#readme",
   "types": "src/index.d.ts",
   "bin": {
     "pact": "bin/pact.js",
@@ -28,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/pact-foundation/pact-js-cli.git"
+    "url": "git://github.com/you54f/pact-js-cli.git"
   },
   "keywords": [
     "pact",
@@ -46,17 +46,17 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pact-foundation/pact-cli/issues"
+    "url": "https://github.com/you54f/pact-cli/issues"
   },
   "publishConfig": {
     "access": "public"
   },
   "optionalDependencies": {
-    "@pact-foundation/pact-cli-darwin-arm64": "15.0.3",
-    "@pact-foundation/pact-cli-darwin-x64": "15.0.3",
-    "@pact-foundation/pact-cli-windows-x64": "15.0.3",
-    "@pact-foundation/pact-cli-linux-x64": "15.0.3",
-    "@pact-foundation/pact-cli-linux-arm64": "15.0.3"
+    "@you54f/pact-cli-darwin-arm64": "15.0.3",
+    "@you54f/pact-cli-darwin-x64": "15.0.3",
+    "@you54f/pact-cli-windows-x64": "15.0.3",
+    "@you54f/pact-cli-linux-x64": "15.0.3",
+    "@you54f/pact-cli-linux-arm64": "15.0.3"
   },
   "dependencies": {
     "chalk": "4.1.2",
