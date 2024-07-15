@@ -69,25 +69,17 @@ export const standalone = (
     brokerPath: path.join(basePath, broker),
     brokerFullPath: path.resolve(getExePath(), basePath, broker).trim(),
     messagePath: path.join(basePath, message),
-    messageFullPath: path
-      .resolve(getExePath(), basePath, message)
-      .trim(),
+    messageFullPath: path.resolve(getExePath(), basePath, message).trim(),
     mockServicePath: path.join(basePath, mock),
-    mockServiceFullPath: path
-      .resolve(getExePath(), basePath, mock)
-      .trim(),
+    mockServiceFullPath: path.resolve(getExePath(), basePath, mock).trim(),
     stubPath: path.join(basePath, stub),
     stubFullPath: path.resolve(getExePath(), basePath, stub).trim(),
     pactPath: path.join(basePath, pact),
     pactFullPath: path.resolve(getExePath(), basePath, pact).trim(),
     pactflowPath: path.join(basePath, pactflow),
-    pactflowFullPath: path
-      .resolve(getExePath(), basePath, pactflow)
-      .trim(),
+    pactflowFullPath: path.resolve(getExePath(), basePath, pactflow).trim(),
     verifierPath: path.join(basePath, verify),
-    verifierFullPath: path
-      .resolve(getExePath(), basePath, verify)
-      .trim(),
+    verifierFullPath: path.resolve(getExePath(), basePath, verify).trim(),
   };
 };
 
