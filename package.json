@@ -1,6 +1,6 @@
 {
   "name": "@you54f/pact-cli",
-  "version": "16.0.0",
+  "version": "17.0.0",
   "description": "Broker CLI for @you54f/pact",
   "main": "src/index.js",
   "homepage": "https://github.com/you54f/pact-js-cli#readme",
