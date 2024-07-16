@@ -1,5 +1,5 @@
 SHELL:=/bin/bash
-export bin=@pact-foundation/pact-cli
+export bin=@you54f/pact-cli
 export pkg_version=$(shell cat package.json | jq -r .version)
 supported_platforms = "linux-x64" "linux-arm64" "darwin-x64" "darwin-arm64" "windows-x64"
 export STANDALONE_VERSION=$(shell grep "PACT_STANDALONE_VERSION = '" standalone/install.ts | grep -E -o "'(.*)'" | cut -d"'" -f2)
@@ -10,7 +10,7 @@ export STANDALONE_VERSION=$(shell grep "PACT_STANDALONE_VERSION = '" standalone/
 # https://blog.orhun.dev/packaging-rust-for-npm/
 
 clean:
-	rm -rf @pact-foundation
+	rm -rf @you54f
 
 libs: clean
 	bash script/download-libs.sh
